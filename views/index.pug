@@ -8,6 +8,8 @@ block content
         span#numUsuarios
     main
       ul#mensajes
+        each mensaje in mensajes 
+          li #{mensaje.nombre}: #{mensaje.texto}
        
     footer 
       div 
@@ -44,6 +46,7 @@ block content
       const li = document.createElement('li');
       li.innerText = `${data.nombre}: ${data.mensaje}`;
       mensajes.appendChild(li);
+      //mensajes.prepend(li);
       
     });
 
@@ -53,3 +56,5 @@ block content
 
       //parrafo.innerText = `Usuarios ${data}`;
     })
+
+    // zOLC8dYUxJ6MFUae

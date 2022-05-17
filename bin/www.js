@@ -8,8 +8,14 @@ const app = require('../app');
 const debug = require('debug')('08-chat:server');
 const http = require('http');
 
+const Mensaje = require('../models/mensaje.model');
+
 
 require('dotenv').config();
+
+// Configuracion bbdd
+require('../config/db');
+
 
 /**
  * Get port from environment and store in Express.
@@ -40,7 +46,11 @@ io.on('connection', (socket) => {
   //io.engine.clientsCount
   io.emit('usuarios_chat', io.engine.clientsCount);
 
-  socket.on('mensaje_chat', (data) => {
+  socket.on('mensaje_chat', async (data) => {
+    await Mensaje.create({
+      nombre: data.nombre,
+      texto: data.mensaje
+    });
     io.emit('mensaje_chat', data);
   });
 
