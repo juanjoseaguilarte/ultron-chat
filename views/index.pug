@@ -1,60 +1,8 @@
-extends layout
-block content
-  .chat
-    header
-      h1 App Chat 
-      h4 
-        | Usuarios Conectados:
-        span#numUsuarios
-    main
-      ul#mensajes
-        each mensaje in mensajes 
-          li #{mensaje.nombre}: #{mensaje.texto}
-       
-    footer 
-      div 
-        label Nombre 
-        input#inputNombre(type="text")
-      div 
-        label Mensaje 
-        input#inputMensaje(type="text")
-      div
-        button#btnEnviar Enviar
-    
-  script.
-    //Canal de comunicación entre cliente y servidor
-    const socket = io();
+extends layout.pug 
 
-
-    const inputNombre = document.getElementById('inputNombre');
-    const inputMensaje = document.getElementById('inputMensaje');
-    const btnEnviar = document.getElementById('btnEnviar');
-    const numUsuarios = document.getElementById('numUsuarios')
-
-    const mensajes = document.getElementById('mensajes')
-
-    btnEnviar.addEventListener('click', () => {
-      socket.emit('mensaje_chat', {
-        nombre: inputNombre.value,
-        mensaje: inputMensaje.value
-      });
-    });
-
-    socket.on('mensaje_chat', (data) => {
-      console.log(data)
-      // Cuando llegue la información debemos agregar un li dentro del ul con el identificador mensajes
-      const li = document.createElement('li');
-      li.innerText = `${data.nombre}: ${data.mensaje}`;
-      mensajes.appendChild(li);
-      //mensajes.prepend(li);
-      
-    });
-
-    socket.on('usuarios_chat', (data) => {
-      console.log(data)
-      numUsuarios.innerText = ` ${data}`
-
-      //parrafo.innerText = `Usuarios ${data}`;
-    })
-
-    // zOLC8dYUxJ6MFUae
+block content 
+    form(action="/login" method="POST") 
+        div 
+            label Introduce tu nombre 
+            input(type="text", name="nombre")
+        input(type="submit", value="Enviar")
